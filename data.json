@@ -1,0 +1,47 @@
+{
+  "slides": [
+    {
+      "title": "Introduction",
+      "week": "Lecture 1",
+      "pdf": "pdf/01-Introduction.pdf",
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vTIh_VNZhCYsqDv3_CAevAoyP1U4YK8cxObkXz5XDDElD4esoAeUWtu4_HnRxMd0HMLc_1Olf83CA5v/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/1mPINCFSaMbasQUwFyR3ur872IyyuFJbzT39yO0E_6p8/edit?usp=sharing"
+    },
+    {
+      "title": "Branching",
+      "week": "Lecture 2",
+      "pdf": "pdf/02-Branching.pdf",
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vSsmws27Df-sMHW5rUVuT7atmS-Hj2WBDRu2gybk-dpue0N1vukrSj6MmznuC_UiCN5pTTFcc0-zLYe/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/1Sb8DA-Od3KIOWnZj9T5JF8ve__wfcJBQt_2agEovwho/edit?usp=sharing"
+    },
+    {
+      "title": "Loops",
+      "week": "Lecture 3",
+      "pdf": "pdf/03-Loops.pdf",
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vTINxfYFAKbduJtNuTlrGD6p46DtMZygllAL8r02608AjYGM5be3Tp778O1HnxJPoqnofwX96ZP6qQQ/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/137hnn7VVXfei2dY6xokHzFZH16lvg7eGxg7oH9MCglE/edit?usp=sharing"
+    },
+    {
+      "title": "Functions",
+      "week": "Lecture 4",
+      "pdf": "pdf/04-Functions.pdf",
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vT0Gd1ws5oBWVf8dvVd6ghWDYgSmiseB2gAGYkkQWQcF-fuPQ_REO5Q0sCT5psi9Thf3-RtR8oNc2Xc/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/1Ph9W9QB6Zke9RoropgZSLPEAOPU2Dqh7T_7i0WV-WS8/edit?usp=sharing"
+    },
+    {
+      "title": "Arrays",
+      "week": "Lecture 5",
+      "pdf": "pdf/05-Arrays.pdf",
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vRs3uklRzm9zZOP1n4iMUx9KuSj9qlJRZxPQIdrQ4MFyFJTZRzRf5_hvRCA-7KN6_fXKOcWRWSdbjaz/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/1TGkMNectVvCABix3eP5ADOtqgLGvqSJsx7aAPukvw-4/edit?usp=sharing"
+    },
+    {
+      "title": "Strings",
+      "week": "Lecture 6",
+      "pdf": "pdf/06-Strings.pdf",
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vT2-Dlb3esB9QIbMvYiWfNhAdSZmyPdfX1UQWPa-BwY-oErF_5TLVl50MNR5YQ50TGkq-xSrFdbP4Is/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/1ns4HxfRAHKPKghRMWYwizx-uM2p6h9ospsU8XxCjZiE/edit?usp=sharing"
+    }
+  ],
+  "references": []
+}

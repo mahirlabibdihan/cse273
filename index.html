@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE 273 - Computer Programming and Numerical Analysis for Materials Modeling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #202124;
+        }
+
+        .header-section {
+            padding: 32px 24px;
+            background: white;
+            border-bottom: 1px solid #dadce0;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+
+        .header-meta {
+            font-size: 14px;
+            color: #5f6368;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 16px 24px;
+            text-align: center;
+        }
+
+        .feedback-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .feedback-badge {
+            background-color: #eef2ff;
+            color: #3730a3;
+            padding: 4px 10px;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+         .feedback-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #202124;
+            margin: 24px 0 16px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .item:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .placeholder-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .placeholder-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .item-info {
+            padding: 12px 16px;
+        }
+
+        .item-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .item-meta {
+            font-size: 12px;
+            color: #5f6368;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-menu {
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .item-menu:hover {
+            background: #f8f9fa;
+            border-radius: 50%;
+        }
+
+        .item-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .pdf-btn {
+            padding: 6px 10px;
+            background-color: #667eea;
+            
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        
+
+        .pdf-btn .icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .pdf-btn.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+
+        .pdf-btn:hover {
+            background-color: #764ba2;
+        }
+
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .navbar {
+                padding: 8px 16px;
+                gap: 12px;
+            }
+
+            .search-bar {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="min-height: 100vh;">
+        <div class="header-section">
+            <div class="header-title">CSE 273: Computer Programming and Numerical Analysis for Materials Modeling</div>
+            <div class="header-meta">
+                <div class="meta-item">
+                    <span>👨‍🏫</span>
+                    <span>Instructor: Mahir Labib Dihan</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback-banner">
+            <a href="https://forms.gle/ieQp1wvFktkqkeWy9" target="_blank" class="feedback-link">
+                <span id="feedbackCount" class="feedback-badge">0</span> <span> Share Your Feedback (Anonymous)</span>
+            </a>
+        </div>
+
+
+        <div class="container">
+            <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+            <script>
+                async function updateFeedbackCount() {
+                const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSYdG766Z_JaT5EGRN31eYVzLcy4vJ9kST6fnVdXLsbIfBcvzRm_u5qgxqwb_1nBK4O-yrFh1hvVcN/pub?gid=1311282050&single=true&output=csv";
+
+                try {
+                    const response = await fetch(sheetURL);
+                    const text = await response.text();
+
+                    const parsed = Papa.parse(text, {
+                        header: true,      // treats first row as header
+                        skipEmptyLines: true
+                    });
+
+                    const count = parsed.data.length;
+
+                    document.getElementById("feedbackCount").innerText = count;
+
+                } catch (err) {
+                    console.error("Error loading feedback count:", err);
+                    document.getElementById("feedbackCount").innerText = "—";
+                }
+            }
+
+            // initial load
+            updateFeedbackCount();
+
+                // Function to convert Google Drive link to thumbnail
+                function getGoogleDriveThumbnail(driveLink) {
+                    let fileId = '';
+                    if (!driveLink) {
+                        return '';
+                    }
+                    if (driveLink.includes('file/d/')) {
+                        fileId = driveLink.split('file/d/')[1].split('/')[0];
+                    } else if (driveLink.includes('open?id=')) {
+                        fileId = driveLink.split('open?id=')[1];
+                    } else if (driveLink.includes('id=')) {
+                        fileId = driveLink.split('id=')[1].split('&')[0];
+                    }
+                    return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w300` : '';
+                }
+
+                function isLocalPdf(pdfLink) {
+                    return pdfLink && /\.pdf($|\?)/i.test(pdfLink) && !/^https?:\/\//i.test(pdfLink);
+                }
+
+                function createPdfPreview(title, pdfLink, thumbnail) {
+                    if (thumbnail) {
+                        return `<img src="${thumbnail}" alt="${title}">`;
+                    }
+
+                    if (isLocalPdf(pdfLink)) {
+                        return `<canvas data-pdf-thumbnail="${pdfLink}" aria-label="${title} preview"></canvas>`;
+                    }
+
+                    return `<div class="placeholder">
+                            <div class="placeholder-icon">&#128196;</div>
+                            <div class="placeholder-text">No Preview</div>
+                    </div>`;
+                }
+
+                let pdfJsPromise;
+
+                async function getPdfJs() {
+                    if (!pdfJsPromise) {
+                        pdfJsPromise = import('./vendor/pdfjs/pdf.min.mjs').then(module => {
+                            module.GlobalWorkerOptions.workerSrc = './vendor/pdfjs/pdf.worker.min.mjs';
+                            return module;
+                        });
+                    }
+
+                    return pdfJsPromise;
+                }
+
+                async function renderPdfThumbnails() {
+                    const canvases = document.querySelectorAll('canvas[data-pdf-thumbnail]');
+                    if (!canvases.length) {
+                        return;
+                    }
+
+                    const pdfjsLib = await getPdfJs();
+
+                    for (const canvas of canvases) {
+                        const pdfUrl = canvas.dataset.pdfThumbnail;
+                        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+                        const page = await pdf.getPage(1);
+                        const viewport = page.getViewport({ scale: 0.5 });
+                        const context = canvas.getContext('2d');
+
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+
+                        await page.render({ canvasContext: context, viewport }).promise;
+                    }
+                }
+
+                // Function to create slide item HTML
+                function createSlideItem(title, week, driveLink, slideLink) {
+                    const thumbnail = getGoogleDriveThumbnail(driveLink);
+                    const preview = createPdfPreview(title, driveLink, thumbnail);
+                    const html = `
+                        <div class="item">
+                            <a href="${slideLink}" target="_blank" class="thumbnail">
+                                ${preview}
+                            </a>
+
+                            <div class="item-info">
+                                <div class="item-title">${title}</div>
+
+                                <div class="item-footer">
+                                    <span class="item-week">${week}</span>
+
+                                    <a href="${driveLink}" target="_blank" class="pdf-btn">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="icon" alt="PDF Icon">   PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    return html;
+                }
+
+                // Function to create reference item HTML
+                function createRefItem(title, type, driveLink) {
+                    const thumbnail = getGoogleDriveThumbnail(driveLink);
+                    const html = `
+                        <a href="${driveLink}" target="_blank" class="item">
+                            <div class="thumbnail">
+                                ${thumbnail ? `<img src="${thumbnail}" alt="${title}">` : '<div class="placeholder"><div class="placeholder-icon">📄</div><div class="placeholder-text">No Preview</div></div>'}
+                            </div>
+                            <div class="item-info">
+                                <div class="item-title">${title}</div>
+                                <div class="item-meta">
+                                    <span>${type}</span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                    return html;
+                }
+
+                // Load data from JSON file
+                async function loadCourseData() {
+                    try {
+                        const response = await fetch('data.json');
+                        const data = await response.json();
+                        
+                        // Render slides
+                        const slideGrid = document.getElementById('slides-grid');
+                        data.slides.forEach(slide => {
+                            slideGrid.innerHTML += createSlideItem(slide.title, slide.week, slide.pdf, slide.url);
+                        });
+                        await renderPdfThumbnails();
+                        
+                        // Render reference materials
+                        const refGrid = document.getElementById('ref-grid');
+                        data.references.forEach(ref => {
+                            refGrid.innerHTML += createRefItem(ref.title, ref.type, ref.link);
+                        });
+                    } catch (error) {
+                        console.error('Error loading course data:', error);
+                        // Fallback message
+                        document.getElementById('slides-grid').innerHTML = `
+    <div style="
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #d32f2f;
+        font-size: 1rem;
+        text-align: center;
+    ">
+        Unable to load course content at the moment. Please try again later.
+    </div>
+    `;
+
+                    }
+                }
+
+                // Load data on page load
+                document.addEventListener('DOMContentLoaded', loadCourseData);
+            </script>
+
+            <!-- Slides Section -->
+            <!-- <div class="section-label">📊 Lecture Slides</div> -->
+            <div class="grid" id="slides-grid">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- make a div with min-height 100vh -->
+
+    <!-- <div style="min-height: 100vh; background: white;">
+        <div class="feedback-banner">
+            <h2 style="font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem); margin-bottom: 0px; color: white;">Course Summary</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; background: white; ">
+            <img src="summary.svg" alt="Summary" style="max-width: 800px; height: auto; opacity: 1;">
+        </div>
+    </div>
+    -->
+</body>
+</html>
