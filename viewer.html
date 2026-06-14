@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f4f6f8;
+            color: #202124;
+            font-family: Arial, sans-serif;
+        }
+
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 18px;
+            background: #ffffff;
+            border-bottom: 1px solid #dfe3e8;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .title {
+            min-width: 0;
+            font-size: 18px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .button {
+            padding: 8px 12px;
+            border: 0;
+            border-radius: 4px;
+            background: #667eea;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button.secondary {
+            background: #eef1f5;
+            color: #202124;
+        }
+
+        .pages {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            padding: 24px 12px;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .message {
+            padding: 32px 16px;
+            text-align: center;
+            color: #5f6368;
+        }
+
+        @media (max-width: 640px) {
+            .toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .actions {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="toolbar">
+        <div class="title" id="viewer-title">PDF Viewer</div>
+        <div class="actions">
+            <a class="button secondary" href="index.html">Back</a>
+            <a class="button" id="download-link" download>Download</a>
+        </div>
+    </header>
+
+    <main class="pages" id="pages">
+        <div class="message">Loading PDF...</div>
+    </main>
+
+    <script type="module">
+        import * as pdfjsLib from './vendor/pdfjs/pdf.min.mjs';
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = './vendor/pdfjs/pdf.worker.min.mjs';
+
+        const params = new URLSearchParams(window.location.search);
+        const file = params.get('file') || '';
+        const title = params.get('title') || 'PDF Viewer';
+        const canDownload = params.get('download') === 'true';
+        const pages = document.getElementById('pages');
+        const downloadLink = document.getElementById('download-link');
+
+        document.title = title;
+        document.getElementById('viewer-title').textContent = title;
+
+        if (canDownload) {
+            downloadLink.href = file;
+        } else {
+            downloadLink.remove();
+        }
+
+        function isSafeLocalPdf(value) {
+            return value && !value.includes('..') && /^pdf\/[^?#]+\.pdf$/i.test(value);
+        }
+
+        async function renderPdf() {
+            if (!isSafeLocalPdf(file)) {
+                pages.innerHTML = '<div class="message">PDF not available.</div>';
+                return;
+            }
+
+            const pdf = await pdfjsLib.getDocument(file).promise;
+            pages.innerHTML = '';
+
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+                const page = await pdf.getPage(pageNumber);
+                const baseViewport = page.getViewport({ scale: 1 });
+                const maxWidth = Math.min(window.innerWidth - 24, 980);
+                const scale = Math.max(0.6, Math.min(1.6, maxWidth / baseViewport.width));
+                const viewport = page.getViewport({ scale });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                pages.appendChild(canvas);
+
+                await page.render({ canvasContext: context, viewport }).promise;
+            }
+        }
+
+        renderPdf().catch(error => {
+            console.error('Error loading PDF:', error);
+            pages.innerHTML = '<div class="message">Unable to load PDF.</div>';
+        });
+    </script>
+</body>
+</html>

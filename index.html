@@ -378,9 +378,20 @@
                 }
 
                 // Function to create slide item HTML
-                function createSlideItem(title, week, driveLink, slideLink) {
+                function createViewerLink(pdfLink, title, canDownload) {
+                    const params = new URLSearchParams({
+                        file: pdfLink,
+                        title,
+                        download: canDownload ? 'true' : 'false'
+                    });
+
+                    return `viewer.html?${params.toString()}`;
+                }
+
+                function createSlideItem(title, week, driveLink, slideLink, canDownload) {
                     const thumbnail = getGoogleDriveThumbnail(driveLink);
                     const preview = createPdfPreview(title, driveLink, thumbnail);
+                    const pdfUrl = createViewerLink(driveLink, title, canDownload);
                     const html = `
                         <div class="item">
                             <a href="${slideLink}" target="_blank" class="thumbnail">
@@ -393,7 +404,7 @@
                                 <div class="item-footer">
                                     <span class="item-week">${week}</span>
 
-                                    <a href="${driveLink}" target="_blank" class="pdf-btn">
+                                    <a href="${pdfUrl}" target="_blank" class="pdf-btn">
                                         <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="icon" alt="PDF Icon">   PDF
                                     </a>
                                 </div>
@@ -432,7 +443,7 @@
                         // Render slides
                         const slideGrid = document.getElementById('slides-grid');
                         data.slides.forEach(slide => {
-                            slideGrid.innerHTML += createSlideItem(slide.title, slide.week, slide.pdf, slide.url);
+                            slideGrid.innerHTML += createSlideItem(slide.title, slide.week, slide.pdf, slide.url, slide.download === true);
                         });
                         await renderPdfThumbnails();
                         
