@@ -44,9 +44,25 @@
       "title": "Strings",
       "week": "Lecture 6",
       "pdf": "pdf/06-Strings.pdf",
-      "download": true,
+      "download": false,
       "url": "https://docs.google.com/presentation/d/e/2PACX-1vT2-Dlb3esB9QIbMvYiWfNhAdSZmyPdfX1UQWPa-BwY-oErF_5TLVl50MNR5YQ50TGkq-xSrFdbP4Is/pub?start=false&loop=false&delayms=3000",
       "source": "https://docs.google.com/presentation/d/1ns4HxfRAHKPKghRMWYwizx-uM2p6h9ospsU8XxCjZiE/edit?usp=sharing"
+    },
+    {
+      "title": "2D-Arrays",
+      "week": "Lecture 7",
+      "pdf": "pdf/07-2D-Arrays.pdf",
+      "download": false,
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vS7YLXIbmAtrWVBuaYSq_95qmC5ivhDxNsiZFjw49Ak96tj8_LmKZZaxBpvrjgvj2n5By75vOSkzKuE/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/1P3-UVypCahoOMgF3K7MRog-r2X3Mwpk-yQaakEC2sBo/edit?usp=sharing"
+    },
+    {
+      "title": "Recursion",
+      "week": "Lecture 8",
+      "pdf": "pdf/08-Recursion.pdf",
+      "download": false,
+      "url": "https://docs.google.com/presentation/d/e/2PACX-1vTU3wZpXLO4qnJk_zqTUNdu96ElIboTPEtPk0fabCEShnxG9hX-IgcWMqXnII8w-Ex86TC7SYxj6MJG/pub?start=false&loop=false&delayms=3000",
+      "source": "https://docs.google.com/presentation/d/1SomQvoc-amb7hD98ghW9ox83CCjiT_rp6_KMQrvlG5w/edit?usp=sharing"
     }
   ],
   "references": []
