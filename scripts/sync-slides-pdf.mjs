@@ -29,8 +29,8 @@ function getPdfExportUrl(slideUrl) {
   throw new Error(`Unsupported Google Slides URL: ${slideUrl}`);
 }
 
-async function downloadPdf(slide, index) {
-  const filename = `${String(index + 1).padStart(2, '0')}-${slugify(slide.title)}.pdf`;
+async function downloadPdf(slide) {
+  const filename = `${slugify(slide.title)}.pdf`;
   const relativePath = `pdf/${filename}`;
   const outputPath = path.join(pdfDir, filename);
   const sourceUrl = slide.source || slide.sourceUrl;
@@ -74,5 +74,5 @@ for (const [index, slide] of data.slides.entries()) {
     continue;
   }
 
-  await downloadPdf(slide, index);
+  await downloadPdf(slide);
 }

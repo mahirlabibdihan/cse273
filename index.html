@@ -343,9 +343,8 @@
                     return `Lecture ${getSlideNumber(index)}`;
                 }
 
-                function getSlidePdfPath(slide, index) {
-                    const number = String(getSlideNumber(index)).padStart(2, '0');
-                    return `pdf/${number}-${slugify(slide.title)}.pdf`;
+                function getSlidePdfPath(slide) {
+                    return `pdf/${slugify(slide.title)}.pdf`;
                 }
 
                 function createPdfPreview(title, pdfLink, thumbnail) {
@@ -467,7 +466,7 @@
                             slideGrid.innerHTML += createSlideItem(
                                 slide.title,
                                 getSlideWeek(index),
-                                getSlidePdfPath(slide, index),
+                                getSlidePdfPath(slide),
                                 slide.url,
                                 slide.download === true
                             );
