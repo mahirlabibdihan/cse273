@@ -327,6 +327,27 @@
                     return pdfLink && /\.pdf($|\?)/i.test(pdfLink) && !/^https?:\/\//i.test(pdfLink);
                 }
 
+                function slugify(value) {
+                    return value
+                        .trim()
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/\s+/g, '-')
+                        .replace(/-+/g, '-');
+                }
+
+                function getSlideNumber(index) {
+                    return index + 1;
+                }
+
+                function getSlideWeek(index) {
+                    return `Lecture ${getSlideNumber(index)}`;
+                }
+
+                function getSlidePdfPath(slide, index) {
+                    const number = String(getSlideNumber(index)).padStart(2, '0');
+                    return `pdf/${number}-${slugify(slide.title)}.pdf`;
+                }
+
                 function createPdfPreview(title, pdfLink, thumbnail) {
                     if (thumbnail) {
                         return `<img src="${thumbnail}" alt="${title}">`;
@@ -442,8 +463,14 @@
                         
                         // Render slides
                         const slideGrid = document.getElementById('slides-grid');
-                        data.slides.forEach(slide => {
-                            slideGrid.innerHTML += createSlideItem(slide.title, slide.week, slide.pdf, slide.url, slide.download === true);
+                        data.slides.forEach((slide, index) => {
+                            slideGrid.innerHTML += createSlideItem(
+                                slide.title,
+                                getSlideWeek(index),
+                                getSlidePdfPath(slide, index),
+                                slide.url,
+                                slide.download === true
+                            );
                         });
                         await renderPdfThumbnails();
                         

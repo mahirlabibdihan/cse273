@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
@@ -49,12 +49,24 @@ async function downloadPdf(slide, index) {
   const buffer = Buffer.from(await response.arrayBuffer());
   await writeFile(outputPath, buffer);
 
-  slide.pdf = relativePath;
   console.log(`Saved ${relativePath}`);
 }
 
+async function resetPdfDir() {
+  const expectedPdfDir = path.resolve(root, 'pdf');
+  const resolvedPdfDir = path.resolve(pdfDir);
+
+  if (resolvedPdfDir !== expectedPdfDir || path.dirname(resolvedPdfDir) !== path.resolve(root)) {
+    throw new Error(`Refusing to clear unexpected PDF directory: ${resolvedPdfDir}`);
+  }
+
+  await rm(resolvedPdfDir, { recursive: true, force: true });
+  await mkdir(resolvedPdfDir, { recursive: true });
+  console.log('Cleared pdf directory');
+}
+
 const data = JSON.parse(await readFile(dataPath, 'utf8'));
-await mkdir(pdfDir, { recursive: true });
+await resetPdfDir();
 
 for (const [index, slide] of data.slides.entries()) {
   if (!slide.source && !slide.sourceUrl) {
@@ -64,6 +76,3 @@ for (const [index, slide] of data.slides.entries()) {
 
   await downloadPdf(slide, index);
 }
-
-await writeFile(dataPath, `${JSON.stringify(data, null, 2)}\n`);
-console.log('Updated data.json');
