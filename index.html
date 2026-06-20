@@ -397,21 +397,20 @@
                     }
                 }
 
-                // Function to create slide item HTML
-                function createViewerLink(pdfLink, title, canDownload) {
-                    const params = new URLSearchParams({
-                        file: pdfLink,
-                        title,
-                        download: canDownload ? 'true' : 'false'
-                    });
+                function createPdfButton(pdfLink, canDownload) {
+                    const content = '<img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="icon" alt="PDF Icon"> PDF';
 
-                    return `viewer.html?${params.toString()}`;
+                    if (!canDownload) {
+                        return `<span class="pdf-btn disabled" aria-disabled="true">${content}</span>`;
+                    }
+
+                    return `<a href="${pdfLink}" target="_blank" class="pdf-btn">${content}</a>`;
                 }
 
                 function createSlideItem(title, week, driveLink, slideLink, canDownload) {
                     const thumbnail = getGoogleDriveThumbnail(driveLink);
                     const preview = createPdfPreview(title, driveLink, thumbnail);
-                    const pdfUrl = createViewerLink(driveLink, title, canDownload);
+                    const pdfButton = createPdfButton(driveLink, canDownload);
                     const html = `
                         <div class="item">
                             <a href="${slideLink}" target="_blank" class="thumbnail">
@@ -424,9 +423,7 @@
                                 <div class="item-footer">
                                     <span class="item-week">${week}</span>
 
-                                    <a href="${pdfUrl}" target="_blank" class="pdf-btn">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" class="icon" alt="PDF Icon">   PDF
-                                    </a>
+                                    ${pdfButton}
                                 </div>
                             </div>
                         </div>
